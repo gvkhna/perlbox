@@ -12,9 +12,9 @@ bootstrap.pl condenses this blog post: http://www.ducea.com/2011/08/15/building-
 
 ## What is required?
 
-[**Vagrant**](http://vagrantup.com/)
-[**Veewee**](https://github.com/jedi4ever/veewee/)
-[RVM (optional)](https://rvm.io/)
+- [**Vagrant**](http://vagrantup.com/)
+- [**Veewee**](https://github.com/jedi4ever/veewee/)
+- [RVM (optional)](https://rvm.io/)
 
 ## How can I help?
 
