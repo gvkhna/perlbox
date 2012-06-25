@@ -54,10 +54,16 @@ class perlbrew {
         command => "${PERLBREW}/bin/perlbrew self-upgrade"
     }
 
-    exec { 'Add Perlbrew to PATH':
+    exec { 'Setup Perlbrew Shell Extension':
         require => Exec['Perlbrew Self Upgrade'],
         command => "echo 'source ${PERLBREW}/etc/bashrc' >> ${HOME}/.bashrc",
         unless => "grep 'source ${PERLBREW}/etc/bashrc' ${HOME}/.bashrc"
+    }
+
+    exec { 'Setup Perl Shell Extension':
+        require => Exec['Perlbrew Self Upgrade'],
+        command => "echo 'perlbrew switch ${PERL_VERSION}' >> ${HOME}/.bashrc",
+        unless => "grep 'perlbrew switch ${PERL_VERSION}' ${HOME}/.bashrc"
     }
 
     exec { 'Perl Installation':
