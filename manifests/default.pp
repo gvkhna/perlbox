@@ -82,7 +82,7 @@ class perlbrew {
     }
 
     exec { 'App::cpanminus Self Upgrade':
-        require => Exec['App::cpanminus local::lib Installation'],
+        require => Exec['App::cpanminus Local Lib Installation'],
         command => "${CPANM} --self-upgrade"
     }
 
