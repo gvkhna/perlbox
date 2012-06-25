@@ -60,14 +60,14 @@ class perlbrew {
         unless => "grep 'source ${PERLBREW}/etc/bashrc' ${HOME}/.bashrc"
     }
 
-    exec { 'Setup Perl Shell Extension':
+    exec { 'Setup Perl Default Version Shell Extension':
         require => Exec['Perlbrew Self Upgrade'],
         command => "echo 'perlbrew switch ${PERL_VERSION}' >> ${HOME}/.bashrc",
         unless => "grep 'perlbrew switch ${PERL_VERSION}' ${HOME}/.bashrc"
     }
 
     exec { 'Perl Installation':
-        require => Exec['Add Perlbrew to PATH'],
+        require => Exec['Perlbrew Self Upgrade'],
         command => "${PERLBREW}/bin/perlbrew install -j 5 ${PERL_NAME}",
         creates => "${PERLBREW}/perls/${PERL_NAME}/bin/perl${PERL_VERSION}",
         timeout => 2500
