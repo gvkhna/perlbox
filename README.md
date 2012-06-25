@@ -2,7 +2,7 @@
 
 **perlbox**: Ready to fly modern perl [virtualized development](http://vagrantup.com/) with [puppet provisioning](http://docs.puppetlabs.com/).
 
-Reliable stack:
+Reliable open source stack:
 - [CentOS v5.8](http://centos.org)
 - [Perlbrew](http://perlbrew.pl/)
 - [Perl v5.16.0](http://www.perl.org/)
@@ -10,13 +10,20 @@ Reliable stack:
 - [Modern::Perl](http://search.cpan.org/~chromatic/Modern-Perl-1.20120521/lib/Modern/Perl.pm)
 - [Mojolicious::Lite](http://mojolicio.us/)
 
+
 bootstrap.pl simply condenses [this blog post](http://www.ducea.com/2011/08/15/building-vagrant-boxes-with-veewee/)
+perlbrew installation procedure was adapted from [this blog post](http://blog.fox.geek.nz/2010/09/installing-multiple-perls-with.html)
+
 
 ## What is required?
 
 - [**Vagrant**](http://vagrantup.com/)
 - [**Veewee**](https://github.com/jedi4ever/veewee/)
 - [RVM (optional)](https://rvm.io/)
+
+## What do I do?
+
+`vagrant up`
 
 ## How can I help?
 
