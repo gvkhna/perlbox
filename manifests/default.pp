@@ -62,8 +62,8 @@ class perlbrew {
 
     exec { 'Setup Perl Default Version Shell Extension':
         require => Exec['Perlbrew Self Upgrade'],
-        command => "echo 'perlbrew switch ${PERL_VERSION}' >> ${HOME}/.bashrc",
-        unless => "grep 'perlbrew switch ${PERL_VERSION}' ${HOME}/.bashrc"
+        command => "echo 'perlbrew switch ${PERL_VERSION}' >> ${HOME}/.bash_profile",
+        unless => "grep 'perlbrew switch ${PERL_VERSION}' ${HOME}/.bash_profile"
     }
 
     exec { 'Perl Installation':
