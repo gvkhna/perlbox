@@ -112,6 +112,11 @@ class perlbrew {
         require => Exec['App::cpanminus Self Upgrade'],
         command => "${CPANM} Mojolicious::Lite"
     }
+
+    exec { 'URI Installation':
+        require => Exec['App::cpanminus Self Upgrade'],
+        command => "${CPANM} URI"
+    }
 }
 
 # print all puppet facts (useful for debugging)
