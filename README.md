@@ -10,9 +10,9 @@ Reliable open source stack:
 - [Modern::Perl](http://search.cpan.org/~chromatic/Modern-Perl-1.20120521/lib/Modern/Perl.pm)
 - [Mojolicious::Lite](http://mojolicio.us/)
 
+perlbrew installation procedure was adapted from [this blog post](http://blog.fox.geek.nz/2010/09/installing-multiple-perls-with.html)
 
 bootstrap.pl simply condenses [this blog post](http://www.ducea.com/2011/08/15/building-vagrant-boxes-with-veewee/)
-perlbrew installation procedure was adapted from [this blog post](http://blog.fox.geek.nz/2010/09/installing-multiple-perls-with.html)
 
 
 ## What is required?
