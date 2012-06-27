@@ -85,6 +85,10 @@ Pull requests are always welcome.
 
 ## Changelog
 
+### 1.2:
+- Stability improvements
+- Bug fixes
+
 ### 1.1:
 - Added [Module::CPANfile](https://github.com/miyagawa/cpanfile) support
 - Added Vagrantfile vm_url to [centos58@github/gauravk92](https://github.com/downloads/gauravk92/perlbox/centos58.box)
