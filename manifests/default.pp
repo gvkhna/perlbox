@@ -87,11 +87,6 @@ class perlbrew {
         command => "${CPANM} --self-upgrade"
     }
 
-    exec { 'Module::CPANfile Installation':
-        require => Exec['App::cpanminus Self Upgrade'],
-        command => "${CPANM} Module::CPANfile"
-    }
-
     exec { 'App::cpanoutdated Installation':
         require => Exec['App::cpanminus Self Upgrade'],
         command => "${CPANM} App::cpanoutdated"
@@ -107,8 +102,14 @@ class perlbrew {
         command => "${CPANM} App::CPAN::Fresh"
     }
 
+    exec { 'Module::CPANfile Installation':
+        require => Exec['App::CPAN::Fresh Installation'],
+        command => "${CPANM} Module::CPANfile"
+    }
+
     exec { 'App::cpanminus Install Dependencies':
         require => Exec['Module::CPANfile Installation'],
+        provider => 'shell',
         command => "${CPANM} -q --installdeps /${USER}",
         logoutput => true
     }
