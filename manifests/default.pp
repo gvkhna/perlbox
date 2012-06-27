@@ -96,13 +96,13 @@ class perlbrew {
         command => "${CPANM} App::cpanoutdated"
     }
 
-    exec { 'cpan-outdated Execution':
+    exec { 'App::cpanoutdated Execution':
         require => Exec['App::cpanoutdated Installation'],
         command => "${PERLBREW}/perls/${PERL_NAME}/bin/cpan-outdated"
     }
 
     exec { 'App::CPAN::Fresh Installation':
-        require => Exec['cpan-outdated Execution'],
+        require => Exec['App::cpanoutdated Execution'],
         command => "${CPANM} App::CPAN::Fresh"
     }
 
