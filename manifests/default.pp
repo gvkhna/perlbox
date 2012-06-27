@@ -2,24 +2,42 @@ $PERL_VERSION='5.16.0'
 $USER='vagrant'
 $HOME="/home/${USER}"
 
-# This is necessary to support CentOS 6 coming soon...
-$UPDATE_STMT = $lsbmajdistrelease ? {
-    5 => 'update -y',
-    6 => 'distribution-synchronization -y'
-}
-
-exec { 'Update Repository Packages':
-    command => "/usr/bin/yum ${UPDATE_STMT}",
-    timeout => 2500
-}
-
 # This is necessary due to a bug in the puppet CentOS installation
 group { 'puppet': ensure => present }
 
-include home
+include update
+include setup
 include perlbrew
 
-class home {
+class update {
+    $UPDATE_ARG='update -y'
+    if $operatingsystem == 'Ubuntu' {
+        $UPDATE_BIN='/usr/bin/apt-get'
+    } else {
+        $UPDATE_BIN='/usr/bin/yum'
+        # This is necessary to support CentOS 6 coming soon...
+        if $osfamily == 'RedHat' and $lsbmajdistrelease == 6 {
+            $UPDATE_ARG='distribution-synchronization -y'
+        }
+    }
+
+    exec { 'Update Repository Packages':
+        command => "${UPDATE_BIN} ${UPDATE_ARG}",
+        onlyif => "/usr/bin/test -x ${UPDATE_BIN}",
+        timeout => 2500
+    }
+
+    if $operatingsystem == 'Ubuntu' {
+        exec { 'Upgrade Repository Packages':
+            require => Exec['Update Repository Packages'],
+            command => "${UPDATE_BIN} upgrade -y",
+            onlyif => "/usr/bin/test -x ${UPDATE_BIN}",
+            timeout => 2500
+        }
+    }
+}
+
+class setup {
     user { $USER: ensure => present }
     group { $USER: ensure => present }
 
@@ -147,8 +165,8 @@ class perlbrew {
 # sudo /etc/init.d/vboxadd setup
 # unless => 'grep 'vboxsf' /proc/modules
 
-# # print all puppet facts (useful for debugging)
-# file { "/tmp/facts.yaml":
-#     content => inline_template("<%= scope.to_hash.reject { |k,v| \
-#    !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>"),
-# }
+# print all puppet facts (useful for debugging)
+file { "/tmp/facts.yaml":
+    content => inline_template("<%= scope.to_hash.reject { |k,v| \
+   !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>"),
+}
