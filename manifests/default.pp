@@ -25,6 +25,7 @@ class perlbrew {
     $PERL_NAME="perl-${PERL_VERSION}"
     $PERLBREW="${HOME}/perl5/perlbrew"
     $CPANM="${PERLBREW}/perls/${PERL_NAME}/bin/cpanm"
+    $PERL="${PERLBREW}/perls/${PERL_NAME}/bin/perl${PERL_VERSION}"
 
     Exec {
         path => '/bin:/usr/bin',
@@ -60,6 +61,7 @@ class perlbrew {
         unless => "grep 'source ${PERLBREW}/etc/bashrc' ${HOME}/.bashrc"
     }
 
+    # Set `vagrant ssh' to use this perl by default (turn off for debugging)
     exec { 'Setup Perl Default Version Shell Extension':
         require => Exec['Perlbrew Self Upgrade'],
         command => "echo 'perlbrew switch ${PERL_VERSION}' >> ${HOME}/.bash_profile",
@@ -69,27 +71,24 @@ class perlbrew {
     exec { 'Perl Installation':
         require => Exec['Perlbrew Self Upgrade'],
         command => "${PERLBREW}/bin/perlbrew install -j 5 ${PERL_NAME}",
-        creates => "${PERLBREW}/perls/${PERL_NAME}/bin/perl${PERL_VERSION}",
+        creates => $PERL,
         timeout => 2500
     }
 
     exec { 'App::cpanminus Installation':
         require => Exec['Perl Installation'],
-        command => "${PERLBREW}/bin/perlbrew install-cpanm",
-        creates => "${PERLBREW}/bin/cpanm"
-    }
-
-    exec { 'App::cpanminus Local Lib Installation':
-        require => Exec['App::cpanminus Installation'],
-        provider => 'shell',
-        command => "echo '${PERLBREW}/bin/cpanm --self-upgrade' \
-                    | ${PERLBREW}/bin/perlbrew use ${PERL_NAME}",
+        command => "curl -L http://cpanmin.us | .${PERL} - --self-upgrade",
         creates => $CPANM
     }
 
     exec { 'App::cpanminus Self Upgrade':
-        require => Exec['App::cpanminus Local Lib Installation'],
+        require => Exec['App::cpanminus Installation'],
         command => "${CPANM} --self-upgrade"
+    }
+
+    exec { 'Module::CPANfile Installation':
+        require => Exec['App::cpanminus Self Upgrade'],
+        command => "${CPANM} Module::CPANfile"
     }
 
     exec { 'App::cpanoutdated Installation':
@@ -107,25 +106,19 @@ class perlbrew {
         command => "${CPANM} App::CPAN::Fresh"
     }
 
-    # Install CPAN Modules
-
-    exec { 'Modern::Perl Installation':
+    exec { 'App::cpanminus Install Dependencies':
         require => Exec['App::cpanminus Self Upgrade'],
-        command => "${CPANM} Modern::Perl"
+        command => "${CPANM} -q --installdeps /vagrant",
+        logoutput => true
     }
 
-    exec { 'Mojolicious::Lite Installation':
-        require => Exec['App::cpanminus Self Upgrade'],
-        command => "${CPANM} Mojolicious::Lite"
-    }
-
-    exec { 'URI Installation':
-        require => Exec['App::cpanminus Self Upgrade'],
-        command => "${CPANM} URI"
-    }
 }
 
-# print all puppet facts (useful for debugging)
-file { "/tmp/facts.yaml":
-    content => inline_template("<%= scope.to_hash.reject { |k,v| !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>"),
-}
+## rebuild virtualbox tools
+# sudo /etc/init.d/vboxadd setup
+# unless => 'grep 'vboxsf' /proc/modules
+
+## print all puppet facts (useful for debugging)
+# file { "/tmp/facts.yaml":
+#     content => inline_template("<%= scope.to_hash.reject { |k,v| !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>"),
+# }
