@@ -1,27 +1,41 @@
-node default {
-    $UPDATE_STMT = $lsbmajdistrelease ? {
-        5 => 'update -y',
-        6 => 'distribution-synchronization -y'
-    }
+$PERL_VERSION='5.16.0'
+$USER='vagrant'
+$HOME="/home/${USER}"
 
-    exec { 'Update Repository Packages':
-        command => "/usr/bin/yum ${UPDATE_STMT}",
-        timeout => 2500
-    }
-
-    user { 'puppet': ensure => 'present' }
-    group { 'puppet': ensure => 'present' }
-    user { 'vagrant': ensure => 'present' }
-    group { 'vagrant': ensure => 'present' }
-
-    include perlbrew
+# This is necessary to support CentOS 6 coming soon...
+$UPDATE_STMT = $lsbmajdistrelease ? {
+    5 => 'update -y',
+    6 => 'distribution-synchronization -y'
 }
 
-$PERL_VERSION='5.16.0'
+exec { 'Update Repository Packages':
+    command => "/usr/bin/yum ${UPDATE_STMT}",
+    timeout => 2500
+}
+
+# This is necessary due to a bug in the puppet CentOS installation
+group { 'puppet': ensure => 'present' }
+
+include home
+include perlbrew
+
+class home {
+    user { $USER: ensure => 'present' }
+    group { $USER: ensure => 'present' }
+
+    file { '/home': ensure => 'directory' }
+
+    file { 'Home Directory Validation'
+        require => File['/home'],
+        ensure => 'directory',
+        path => $HOME,
+        owner => $USER,
+        group => $USER,
+        mode => 644
+    }
+}
 
 class perlbrew {
-    $USER='vagrant'
-    $HOME="/home/${USER}"
     $PERL_NAME="perl-${PERL_VERSION}"
     $PERLBREW_ROOT="${HOME}/perl5/perlbrew"
     $CPANM="${PERLBREW_ROOT}/perls/${PERL_NAME}/bin/cpanm"
@@ -55,17 +69,23 @@ class perlbrew {
         command => "${PERLBREW_ROOT}/bin/perlbrew self-upgrade"
     }
 
+    $BASHRC="${HOME}/.bashrc"
+    file { $BASHRC: ensure => 'present' }
+
     exec { 'Setup Perlbrew Shell Extension':
-        require => Exec['Perlbrew Self Upgrade'],
-        command => "echo 'source ${PERLBREW_ROOT}/etc/bashrc' >> ${HOME}/.bashrc",
-        unless => "grep 'source ${PERLBREW_ROOT}/etc/bashrc' ${HOME}/.bashrc"
+        require => [File[$BASHRC], Exec['Perlbrew Self Upgrade']],
+        command => "echo 'source ${PERLBREW_ROOT}/etc/bashrc' >> ${BASHRC}",
+        unless => "grep 'source ${PERLBREW_ROOT}/etc/bashrc' ${BASHRC}"
     }
+
+    $PROFILE="${HOME}/.bash_profile"
+    file { $PROFILE: ensure => 'present' }
 
     # Set `vagrant ssh' to use this perl by default (turn off for debugging)
     exec { 'Setup Perl Default Version Shell Extension':
-        require => Exec['Perlbrew Self Upgrade'],
-        command => "echo 'perlbrew switch ${PERL_VERSION}' >> ${HOME}/.bash_profile",
-        unless => "grep 'perlbrew switch ${PERL_VERSION}' ${HOME}/.bash_profile"
+        require => [File[$PROFILE], Exec['Perlbrew Self Upgrade']],
+        command => "echo 'perlbrew switch ${PERL_VERSION}' >> ${PROFILE}",
+        unless => "grep 'perlbrew switch ${PERL_VERSION}' ${PROFILE}"
     }
 
     exec { 'Perl Installation':
@@ -111,6 +131,7 @@ class perlbrew {
         require => Exec['Module::CPANfile Installation'],
         provider => 'shell',
         command => "${CPANM} -q --installdeps /${USER}",
+        onlyif => "test -r /${USER}/cpanfile",
         logoutput => true
     }
 
@@ -120,7 +141,7 @@ class perlbrew {
 # sudo /etc/init.d/vboxadd setup
 # unless => 'grep 'vboxsf' /proc/modules
 
-## print all puppet facts (useful for debugging)
+# # print all puppet facts (useful for debugging)
 # file { "/tmp/facts.yaml":
 #     content => inline_template("<%= scope.to_hash.reject { |k,v| \
 #    !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>"),
