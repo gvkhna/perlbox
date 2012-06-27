@@ -108,7 +108,7 @@ class perlbrew {
 
     exec { 'App::cpanminus Install Dependencies':
         require => Exec['App::cpanminus Self Upgrade'],
-        command => "${CPANM} -q --installdeps /vagrant",
+        command => "${CPANM} -q --installdeps /${USER}",
         logoutput => true
     }
 
