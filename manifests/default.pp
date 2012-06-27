@@ -25,7 +25,7 @@ class home {
 
     file { '/home': ensure => 'directory' }
 
-    file { 'Home Directory Validation'
+    file { 'Home Directory Validation':
         require => File['/home'],
         ensure => 'directory',
         path => $HOME,
