@@ -76,8 +76,8 @@ class perlbrew {
     }
 
     exec { 'App::cpanminus Installation':
-        require => Exec['Perl Installation'],
-        command => "curl -L http://cpanmin.us | .${PERL} - --self-upgrade",
+        require => [Package['curl'],Exec['Perl Installation']],
+        command => "curl -L http://cpanmin.us | ${PERL} - --self-upgrade",
         creates => $CPANM
     }
 
