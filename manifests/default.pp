@@ -23,9 +23,9 @@ class perlbrew {
     $USER='vagrant'
     $HOME="/home/${USER}"
     $PERL_NAME="perl-${PERL_VERSION}"
-    $PERLBREW="${HOME}/perl5/perlbrew"
-    $CPANM="${PERLBREW}/perls/${PERL_NAME}/bin/cpanm"
-    $PERL="${PERLBREW}/perls/${PERL_NAME}/bin/perl"
+    $PERLBREW_ROOT="${HOME}/perl5/perlbrew"
+    $CPANM="${PERLBREW_ROOT}/perls/${PERL_NAME}/bin/cpanm"
+    $PERL="${PERLBREW_ROOT}/perls/${PERL_NAME}/bin/perl"
 
     Exec {
         path => '/bin:/usr/bin',
@@ -33,7 +33,7 @@ class perlbrew {
         group => $USER,
         cwd => $HOME,
         #logoutput => true,
-        environment => ["PERLBREW_ROOT=${PERLBREW}", "HOME=${HOME}"],
+        environment => ["PERLBREW_ROOT=${PERLBREW_ROOT}", "HOME=${HOME}"],
     }
 
     package { curl: ensure => latest }
@@ -41,24 +41,24 @@ class perlbrew {
     exec { 'Perlbrew Installation':
         require => Package['curl'],
         command => 'curl -kL http://install.perlbrew.pl | /bin/bash',
-        creates => "${PERLBREW}/bin/perlbrew"
+        creates => "${PERLBREW_ROOT}/bin/perlbrew"
     }
 
     exec { 'Perlbrew Initialization':
         require => Exec['Perlbrew Installation'],
-        command => "${PERLBREW}/bin/perlbrew init",
-        creates => "${PERLBREW}/etc/bashrc"
+        command => "${PERLBREW_ROOT}/bin/perlbrew init",
+        creates => "${PERLBREW_ROOT}/etc/bashrc"
     }
 
     exec { 'Perlbrew Self Upgrade':
         require => Exec['Perlbrew Initialization'],
-        command => "${PERLBREW}/bin/perlbrew self-upgrade"
+        command => "${PERLBREW_ROOT}/bin/perlbrew self-upgrade"
     }
 
     exec { 'Setup Perlbrew Shell Extension':
         require => Exec['Perlbrew Self Upgrade'],
-        command => "echo 'source ${PERLBREW}/etc/bashrc' >> ${HOME}/.bashrc",
-        unless => "grep 'source ${PERLBREW}/etc/bashrc' ${HOME}/.bashrc"
+        command => "echo 'source ${PERLBREW_ROOT}/etc/bashrc' >> ${HOME}/.bashrc",
+        unless => "grep 'source ${PERLBREW_ROOT}/etc/bashrc' ${HOME}/.bashrc"
     }
 
     # Set `vagrant ssh' to use this perl by default (turn off for debugging)
@@ -70,7 +70,7 @@ class perlbrew {
 
     exec { 'Perl Installation':
         require => Exec['Perlbrew Self Upgrade'],
-        command => "${PERLBREW}/bin/perlbrew install -j 4 ${PERL_NAME}",
+        command => "${PERLBREW_ROOT}/bin/perlbrew install -j 4 ${PERL_VERSION}",
         creates => $PERL,
         timeout => 10000
     }
@@ -94,7 +94,7 @@ class perlbrew {
 
     exec { 'App::cpanoutdated Execution':
         require => Exec['App::cpanoutdated Installation'],
-        command => "${PERLBREW}/perls/${PERL_NAME}/bin/cpan-outdated"
+        command => "${PERLBREW_ROOT}/perls/${PERL_NAME}/bin/cpan-outdated"
     }
 
     exec { 'App::CPAN::Fresh Installation':
@@ -122,5 +122,6 @@ class perlbrew {
 
 ## print all puppet facts (useful for debugging)
 # file { "/tmp/facts.yaml":
-#     content => inline_template("<%= scope.to_hash.reject { |k,v| !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>"),
+#     content => inline_template("<%= scope.to_hash.reject { |k,v| \
+#    !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>"),
 # }
