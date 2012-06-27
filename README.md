@@ -32,6 +32,7 @@ Pull requests are always welcome.
 
 ### 1.1:
 - Added [Module::CPANfile](https://github.com/miyagawa/cpanfile) support
+- Added vagrant fallback url to vm box
 
 ### 1.0:
 - Initial commit
