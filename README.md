@@ -1,25 +1,23 @@
 ## What is this?
 
-**perlbox**: Ready to fly modern perl [virtualized development](http://vagrantup.com/) with [puppet provisioning](http://docs.puppetlabs.com/).
+**perlbox**: A ready to fly perl [reproducible virtualized](http://vagrantup.com/) development environment with out of the box [declarative dependency management](https://github.com/miyagawa/cpanfile).
 
 Reliable open source stack:
 - [CentOS v5.8](http://centos.org)
 - [Perlbrew](http://perlbrew.pl/)
 - [Perl v5.16.0](http://www.perl.org/)
 - [App::cpanminus](http://cpanmin.us/)
-- [Modern::Perl](http://search.cpan.org/~chromatic/Modern-Perl-1.20120521/lib/Modern/Perl.pm)
-- [Mojolicious::Lite](http://mojolicio.us/)
+- [Module::CPANfile](https://github.com/miyagawa/cpanfile)
 
 
 ## What do I need?
 
 - [Vagrant](http://vagrantup.com/)
 - [Veewee](https://github.com/jedi4ever/veewee/)
-- [RVM (optional)](https://rvm.io/)
 
 ## What do I do?
 
-`vagrant up`
+vagrant up
 
 ## How can I help?
 
