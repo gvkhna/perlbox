@@ -49,8 +49,8 @@ Built with solid open source technologies:
     [default] -- manifests: /tmp/vagrant-puppet/manifests
     [default] Running provisioner: Vagrant::Provisioners::Puppet...
     [default] Running Puppet with /tmp/vagrant-puppet/manifests/default.pp...
-    notice: /Stage[main]//Node[default]/Exec[Update Repository Packages]/returns: executed successfully
-    notice: /Stage[main]//Node[default]/User[puppet]/ensure: created
+    notice: /Stage[main]//Exec[Update Repository Packages]/returns: executed successfully
+    notice: /Stage[main]//Group[puppet]/ensure: created
     notice: /Stage[main]/Perlbrew/Exec[Perlbrew Installation]/returns: executed successfully
     notice: /Stage[main]/Perlbrew/Exec[Perlbrew Self Upgrade]/returns: executed successfully
     notice: /Stage[main]/Perlbrew/Exec[Setup Perl Default Version Shell Extension]/returns: executed successfully
@@ -66,7 +66,7 @@ Built with solid open source technologies:
     notice: /Stage[main]/Perlbrew/Exec[App::cpanminus Install Dependencies]/returns: 1 distribution installed
     notice: /Stage[main]/Perlbrew/Exec[App::cpanminus Install Dependencies]/returns: executed successfully
     
-    notice: Finished catalog run in 1479.63 seconds
+    notice: Finished catalog run in 1672.59 seconds
 
 **$** `echo 'which perl && which cpanm' | vagrant ssh`
 

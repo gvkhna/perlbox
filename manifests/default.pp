@@ -14,24 +14,24 @@ exec { 'Update Repository Packages':
 }
 
 # This is necessary due to a bug in the puppet CentOS installation
-group { 'puppet': ensure => 'present' }
+group { 'puppet': ensure => present }
 
 include home
 include perlbrew
 
 class home {
-    user { $USER: ensure => 'present' }
-    group { $USER: ensure => 'present' }
+    user { $USER: ensure => present }
+    group { $USER: ensure => present }
 
-    file { '/home': ensure => 'directory' }
+    file { '/home': ensure => directory }
 
     file { 'Home Directory Validation':
         require => File['/home'],
-        ensure => 'directory',
+        ensure => directory,
         path => $HOME,
         owner => $USER,
         group => $USER,
-        mode => 644
+        mode => 700,
     }
 }
 
@@ -47,7 +47,13 @@ class perlbrew {
         group => $USER,
         cwd => $HOME,
         #logoutput => true,
-        environment => ["PERLBREW_ROOT=${PERLBREW_ROOT}", "HOME=${HOME}"],
+        environment => ["PERLBREW_ROOT=${PERLBREW_ROOT}", "HOME=${HOME}"]
+    }
+
+    File {
+        owner => $USER,
+        group => $USER,
+        mode => 644
     }
 
     package { curl: ensure => latest }
@@ -70,7 +76,7 @@ class perlbrew {
     }
 
     $BASHRC="${HOME}/.bashrc"
-    file { $BASHRC: ensure => 'present' }
+    file { $BASHRC: ensure => present }
 
     exec { 'Setup Perlbrew Shell Extension':
         require => [File[$BASHRC], Exec['Perlbrew Self Upgrade']],
@@ -79,9 +85,9 @@ class perlbrew {
     }
 
     $PROFILE="${HOME}/.bash_profile"
-    file { $PROFILE: ensure => 'present' }
+    file { $PROFILE: ensure => present }
 
-    # Set `vagrant ssh' to use this perl by default (turn off for debugging)
+    # Set `vagrant ssh' shell to use this perl by default (turn off for debugging)
     exec { 'Setup Perl Default Version Shell Extension':
         require => [File[$PROFILE], Exec['Perlbrew Self Upgrade']],
         command => "echo 'perlbrew switch ${PERL_VERSION}' >> ${PROFILE}",
@@ -97,7 +103,7 @@ class perlbrew {
 
     exec { 'App::cpanminus Installation':
         require => [Package['curl'], Exec['Perl Installation']],
-        provider => 'shell',
+        provider => shell,
         command => "curl -L http://cpanmin.us | ${PERL} - --self-upgrade",
         creates => $CPANM
     }
@@ -129,7 +135,7 @@ class perlbrew {
 
     exec { 'App::cpanminus Install Dependencies':
         require => Exec['Module::CPANfile Installation'],
-        provider => 'shell',
+        provider => shell,
         command => "${CPANM} -q --installdeps /${USER}",
         onlyif => "test -r /${USER}/cpanfile",
         logoutput => true
