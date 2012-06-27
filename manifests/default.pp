@@ -25,7 +25,7 @@ class perlbrew {
     $PERL_NAME="perl-${PERL_VERSION}"
     $PERLBREW="${HOME}/perl5/perlbrew"
     $CPANM="${PERLBREW}/perls/${PERL_NAME}/bin/cpanm"
-    $PERL="${PERLBREW}/perls/${PERL_NAME}/bin/perl${PERL_VERSION}"
+    $PERL="${PERLBREW}/perls/${PERL_NAME}/bin/perl"
 
     Exec {
         path => '/bin:/usr/bin',
@@ -70,9 +70,9 @@ class perlbrew {
 
     exec { 'Perl Installation':
         require => Exec['Perlbrew Self Upgrade'],
-        command => "${PERLBREW}/bin/perlbrew install -j 5 ${PERL_NAME}",
+        command => "${PERLBREW}/bin/perlbrew install -j 4 ${PERL_NAME}",
         creates => $PERL,
-        timeout => 2500
+        timeout => 10000
     }
 
     exec { 'App::cpanminus Installation':

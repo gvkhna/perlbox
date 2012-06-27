@@ -1,6 +1,6 @@
 ## What is this?
 
-**perlbox**: A ready to fly perl [reproducible virtualized development environment](http://vagrantup.com/) with out of the box [declarative dependency management](https://github.com/miyagawa/cpanfile).
+**perlbox**: The lightweight portable perl reproducible virtualized development environment with out of the box declarative automatic CPAN dependency management.
 
 Reliable open source stack:
 - [CentOS v5.8](http://centos.org)
@@ -17,6 +17,16 @@ Reliable open source stack:
 ## What do I do?
 
 `vagrant up`
+
+#### Seriously…thats it, watch.
+
+    [default] Box centos58 was not found. Fetching box from specified URL...
+    [vagrant] Downloading with Vagrant::Downloaders::HTTP...
+    [vagrant] Downloading box: https://github.com/downloads/gauravk92/perlbox/centos58.box
+    [vagrant] Downloading box: http://cloud.github.com/downloads/gauravk92/perlbox/centos58.box
+    [vagrant] Extracting box...
+    [vagrant] Verifying box...
+    [vagrant] Cleaning up downloaded box...
 
 ## How can I help?
 
