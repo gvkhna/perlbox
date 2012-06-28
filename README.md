@@ -1,6 +1,6 @@
 ## What is this?
 
-[**perlbox**](https://github.com/gauravk92/perlbox): The lightweight portable perl reproducible virtualized development environment with out of the box declarative automatic CPAN dependency management.
+[**perlbox**](https://github.com/gauravk92/perlbox): The lightweight portable reproducible perl virtualized development environment with baked-in automatic declarative CPAN dependency management.
 
 Reliable open source development stack:
 
@@ -21,11 +21,11 @@ Built with solid open source technologies:
 
 ## What do I do?
 
-### One elegantly simple command, watch this.
+### One elegantly simple command, watch this
 
-**$** `vagrant up`
+    $ vagrant up
 
-##### It's not stuck… just give it a minute!
+##### CAUTION: Beer is highly recommended while you wait.
 
     [default] Box centos58 was not found. Fetching box from specified URL...
     [vagrant] Downloading with Vagrant::Downloaders::HTTP...
@@ -68,10 +68,12 @@ Built with solid open source technologies:
     
     notice: Finished catalog run in 1672.59 seconds
 
-**$** `echo 'which perl && which cpanm' | vagrant ssh`
+### Your dependencies are installed and your environment is completely configured
 
+    $ echo 'which perl && which cpanm && cpanm Mojolicious::Lite' | vagrant ssh
     /home/vagrant/perl5/perlbrew/perls/perl-5.16.0/bin/perl
     /home/vagrant/perl5/perlbrew/perls/perl-5.16.0/bin/cpanm
+    Mojolicious::Lite is up to date.
 
 ## How can I help?
 
@@ -85,13 +87,11 @@ Pull requests are always welcome.
 
 ## Changelog
 
-### 1.2:
-- Stability improvements
-- Bug fixes
-
-### 1.1:
+### 2.0:
 - Added [Module::CPANfile](https://github.com/miyagawa/cpanfile) support
 - Added Vagrantfile vm_url to [centos58@github/gauravk92](https://github.com/downloads/gauravk92/perlbox/centos58.box)
+- Stability improvements
+- Bug fixes
 
 ### 1.0:
 - Initial commit
