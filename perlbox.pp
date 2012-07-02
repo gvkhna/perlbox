@@ -64,8 +64,8 @@ class debian {
 class redhat {
     $PKG_MGR = '/usr/bin/yum'
 
-    $CMD = $operatingsystemrelease =~ /(\d{1})\./ ? {
-        6 => 'distribution-synchronization',
+    $CMD = $operatingsystemrelease ? {
+        /6/ => 'distribution-synchronization',
         default => 'update'
     }
 
