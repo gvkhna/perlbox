@@ -17,20 +17,18 @@ Built with solid open source technologies:
 ## What do I need?
 
 - [Vagrant](http://vagrantup.com/)
-- [VirtualBox](https://www.virtualbox.org/)
 
 ## What do I do?
 
 ### One elegantly simple command, watch this
 
-> $ vagrant up
+    $ vagrant up
 
-#### WARNING: It's not stuck, just give it a minute!
+#### WARNING: It's not stuck, just give it anywhere from a few minutes to a few days!
 
 ### Everythings good to go, enjoy.
 
-> $ echo 'which perl && which cpanm && cpanm Mojolicious::Lite' | vagrant ssh
-
+    $ echo 'which perl && which cpanm && cpanm Mojolicious::Lite' | vagrant ssh
     /home/vagrant/perl5/perlbrew/perls/perl-5.16.0/bin/perl
     /home/vagrant/perl5/perlbrew/perls/perl-5.16.0/bin/cpanm
     Mojolicious::Lite is up to date.
@@ -42,9 +40,9 @@ Pull requests are always welcome.
 ## Notes
 
 - [Perlbrew installation procedure](http://blog.fox.geek.nz/2010/09/installing-multiple-perls-with.html)
-- bootstrap.pl condenses the [veewee custom box build procedure](http://www.ducea.com/2011/08/15/building-vagrant-boxes-with-veewee) and is hosted as a gist [here](https://gist.github.com/3032167)
-- veewee definitions are included for completeness [here](https://github.com/gauravk92/perlbox/downloads)
-- Ubuntu and centos58 are not officially supported but are useful for puppet script assumption hunting
+- bootstrap.pl condenses the [veewee custom box build procedure](http://www.ducea.com/2011/08/15/building-vagrant-boxes-with-veewee) and is hosted as a [gist](https://gist.github.com/3032167)
+- veewee definitions are included for [completeness](https://github.com/gauravk92/perlbox/downloads)
+- Ubuntu and centos58 are not on by default but should work
 
 ## Changelog
 
