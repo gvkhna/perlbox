@@ -30,13 +30,13 @@ $HOME = "/home/${USER}"
 # This is necessary due to a bug in the puppet CentOS installation
 group { 'puppet': ensure => present }
 
-import 'dependencies.pp'
-
 case $operatingsystem {
     centos, redhat: { include redhat }
     debian, ubuntu: { include debian }
     default: { fail("Unrecognized operating system for perlbox") }
 }
+
+import 'dependencies.pp'
 
 include user_setup
 include perlbrew
