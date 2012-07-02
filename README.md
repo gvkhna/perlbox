@@ -37,8 +37,9 @@ Built with solid open source technologies:
     [default] Importing base box 'centos58'...
     [default] Matching MAC address for NAT networking...
     [default] Clearing any previously set forwarded ports...
+    [default] Fixed port collision for 22 => 2222. Now on port 2201.
     [default] Forwarding ports...
-    [default] -- 22 => 2222 (adapter 1)
+    [default] -- 22 => 2201 (adapter 1)
     [default] Creating shared folders metadata...
     [default] Clearing any previously set network interfaces...
     [default] Booting VM...
@@ -48,8 +49,9 @@ Built with solid open source technologies:
     [default] -- v-root: /vagrant
     [default] -- manifests: /tmp/vagrant-puppet/manifests
     [default] Running provisioner: Vagrant::Provisioners::Puppet...
-    [default] Running Puppet with /tmp/vagrant-puppet/manifests/default.pp...
-    notice: /Stage[main]//Exec[Update Repository Packages]/returns: executed successfully
+    [default] Running Puppet with /tmp/vagrant-puppet/manifests/perlbox.pp...
+    notice: /Stage[main]/Update/Exec[Update Repository Packages]/returns: executed successfully
+    notice: /Stage[main]//File[/tmp/facts.yaml]/ensure: defined content as '{md5}050286e0d89fe61e71e461aa645276bb'
     notice: /Stage[main]//Group[puppet]/ensure: created
     notice: /Stage[main]/Perlbrew/Exec[Perlbrew Installation]/returns: executed successfully
     notice: /Stage[main]/Perlbrew/Exec[Perlbrew Self Upgrade]/returns: executed successfully
@@ -62,11 +64,11 @@ Built with solid open source technologies:
     notice: /Stage[main]/Perlbrew/Exec[App::cpanoutdated Execution]/returns: executed successfully
     notice: /Stage[main]/Perlbrew/Exec[App::CPAN::Fresh Installation]/returns: executed successfully
     notice: /Stage[main]/Perlbrew/Exec[Module::CPANfile Installation]/returns: executed successfully
-    notice: /Stage[main]/Perlbrew/Exec[App::cpanminus Install Dependencies]/returns: Successfully installed Mojolicious-3.0
+    notice: /Stage[main]/Perlbrew/Exec[App::cpanminus Install Dependencies]/returns: Successfully installed Mojolicious-3.01
     notice: /Stage[main]/Perlbrew/Exec[App::cpanminus Install Dependencies]/returns: 1 distribution installed
     notice: /Stage[main]/Perlbrew/Exec[App::cpanminus Install Dependencies]/returns: executed successfully
 
-    notice: Finished catalog run in 1672.59 seconds
+    notice: Finished catalog run in 1944.01 seconds
 
 ### Everythings good to go, enjoy.
 
