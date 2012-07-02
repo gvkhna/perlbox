@@ -153,7 +153,8 @@ class perlbrew {
         require => Exec['Perlbrew Self Upgrade'],
         command => "${PERLBREW_ROOT}/bin/perlbrew install -j 4 ${PERL_VERSION}",
         creates => $PERL,
-        timeout => 10000
+        timeout => 10000,
+        tries => 3
     }
 
     exec { 'App::cpanminus Installation':
