@@ -43,7 +43,7 @@ class update {
     } else {
         $UPDATE_BIN='/usr/bin/yum'
         # This is necessary to support CentOS 6 coming soon...
-        if ( $osfamily == 'RedHat' ) and ( $lsbmajdistrelease >= 6 ) {
+        if ( $osfamily == 'RedHat' ) and ( $operatingsystemrelease >= 6 ) {
             $UPDATE_ARG='distribution-synchronization -y'
         }
     }
