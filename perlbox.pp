@@ -32,15 +32,14 @@ group { 'puppet': ensure => present }
 
 import 'dependencies.pp'
 
-include update
-include setup_user
-include perlbrew
-
 case $operatingsystem {
     centos, redhat: { include redhat }
     debian, ubuntu: { include debian }
     default: { fail("Unrecognized operating system for perlbox") }
 }
+
+include user_setup
+include perlbrew
 
 class debian {
     $PKG_MGR = '/usr/bin/apt-get'
@@ -76,7 +75,7 @@ class redhat {
     }
 }
 
-class setup_user {
+class user_setup {
     user { $USER:
         ensure => present,
         home => $HOME
