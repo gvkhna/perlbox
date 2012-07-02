@@ -70,7 +70,7 @@ class redhat {
     }
 
     exec { 'Upgrade Repository Packages':
-        command => "${PKG_MGR} ${CMD} -y"
+        command => "${PKG_MGR} ${CMD} -y",
         onlyif => "/usr/bin/test -x ${PKG_MGR}",
         timeout => 2500
     }
