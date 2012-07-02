@@ -36,33 +36,37 @@ include update
 include setup_user
 include perlbrew
 
-class update {
-    $UPDATE_ARG='update -y'
-    if $operatingsystem == 'Ubuntu' {
-        $UPDATE_BIN='/usr/bin/apt-get'
-    } else {
-        $UPDATE_BIN='/usr/bin/yum'
-        # This is necessary to support CentOS 6 coming soon...
-        if ( $osfamily == 'RedHat' ) and ( $operatingsystemrelease >= 6 ) {
-            $UPDATE_ARG='distribution-synchronization -y'
-        }
-    }
+case $operatingsystem {
+    centos, redhat: { include redhat }
+    debian, ubuntu: { include debian }
+    default: { fail("Unrecognized operating system for perlbox") }
+}
 
+class debian {
+    $PKG_MGR='/usr/bin/apt-get'
     exec { 'Update Repository Packages':
-        command => "${UPDATE_BIN} ${UPDATE_ARG}",
-        onlyif => "/usr/bin/test -x ${UPDATE_BIN}",
+        command => "${PKG_MGR} update -y",
+        onlyif => "/usr/bin/test -x ${PKG_MGR}",
         timeout => 2500
     }
 
-    if $operatingsystem == 'Ubuntu' {
-        package { 'build-essential': ensure => latest }
+    exec { 'Upgrade Repository Packages':
+        require => Exec['Update Repository Packages'],
+        command => "${PKG_MGR} upgrade -y",
+        onlyif => "/usr/bin/test -x ${PKG_MGR}",
+        timeout => 2500
+    }
 
-        exec { 'Upgrade Repository Packages':
-            require => Exec['Update Repository Packages'],
-            command => "${UPDATE_BIN} upgrade -y",
-            onlyif => "/usr/bin/test -x ${UPDATE_BIN}",
-            timeout => 2500
-        }
+    package { 'build-essential': ensure => latest }
+}
+
+class redhat {
+    $PKG_MGR='/usr/bin/yum'
+    $CMD = ( (0+$operatingsystemrelease) >= 6 ) ? 'distribution-synchronization' : 'update'
+    exec { 'Upgrade Repository Packages':
+        command => "${PKG_MGR} ${CMD} -y"
+        onlyif => "/usr/bin/test -x ${PKG_MGR}",
+        timeout => 2500
     }
 }
 
