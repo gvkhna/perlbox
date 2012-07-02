@@ -38,7 +38,10 @@ class update {
 }
 
 class setup {
-    user { $USER: ensure => present }
+    user { $USER:
+        ensure => present,
+        home => $HOME
+    }
     group { $USER: ensure => present }
 
     file { '/home': ensure => directory }
