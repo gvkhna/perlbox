@@ -30,9 +30,13 @@ $HOME="/home/${USER}"
 # This is necessary due to a bug in the puppet CentOS installation
 group { 'puppet': ensure => present }
 
-include update
-include setup
-include perlbrew
+import 'dependencies.pp'
+
+node default {
+    include update
+    include setup
+    include perlbrew
+}
 
 class update {
     $UPDATE_ARG='update -y'
@@ -130,10 +134,9 @@ class perlbrew {
         unless => "grep 'source ${PERLBREW_ROOT}/etc/bashrc' ${BASHRC}"
     }
 
-    $PROFILE="${HOME}/.bash_profile"
-    file { $PROFILE: ensure => present }
-
     # Set `vagrant ssh' shell to use this perl by default (turn off for debugging)
+    $PROFILE="${HOME}/.profile"
+    file { $PROFILE: ensure => present }
     exec { 'Setup Perl Default Version Shell Extension':
         require => [File[$PROFILE], Exec['Perlbrew Self Upgrade']],
         command => "echo 'perlbrew switch ${PERL_VERSION}' >> ${PROFILE}",

@@ -1,0 +1,1 @@
+package { 'libjpeg-devel': ensure => latest }
