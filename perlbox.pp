@@ -23,9 +23,9 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-$PERL_VERSION='5.16.0'
-$USER='vagrant'
-$HOME="/home/${USER}"
+$PERL_VERSION = '5.16.0'
+$USER = 'vagrant'
+$HOME = "/home/${USER}"
 
 # This is necessary due to a bug in the puppet CentOS installation
 group { 'puppet': ensure => present }
@@ -43,7 +43,8 @@ case $operatingsystem {
 }
 
 class debian {
-    $PKG_MGR='/usr/bin/apt-get'
+    $PKG_MGR = '/usr/bin/apt-get'
+
     exec { 'Update Repository Packages':
         command => "${PKG_MGR} update -y",
         onlyif => "/usr/bin/test -x ${PKG_MGR}",
@@ -61,8 +62,13 @@ class debian {
 }
 
 class redhat {
-    $PKG_MGR='/usr/bin/yum'
-    $CMD = ( (0+$operatingsystemrelease) >= 6 ) ? 'distribution-synchronization' : 'update'
+    $PKG_MGR = '/usr/bin/yum'
+
+    $CMD = $operatingsystemrelease =~ /(\d{1})\./ ? {
+        6 => 'distribution-synchronization',
+        default => 'update'
+    }
+
     exec { 'Upgrade Repository Packages':
         command => "${PKG_MGR} ${CMD} -y"
         onlyif => "/usr/bin/test -x ${PKG_MGR}",
@@ -91,10 +97,10 @@ class setup_user {
 }
 
 class perlbrew {
-    $PERL_NAME="perl-${PERL_VERSION}"
-    $PERLBREW_ROOT="${HOME}/perl5/perlbrew"
-    $CPANM="${PERLBREW_ROOT}/perls/${PERL_NAME}/bin/cpanm"
-    $PERL="${PERLBREW_ROOT}/perls/${PERL_NAME}/bin/perl"
+    $PERL_NAME = "perl-${PERL_VERSION}"
+    $PERLBREW_ROOT = "${HOME}/perl5/perlbrew"
+    $CPANM = "${PERLBREW_ROOT}/perls/${PERL_NAME}/bin/cpanm"
+    $PERL = "${PERLBREW_ROOT}/perls/${PERL_NAME}/bin/perl"
 
     Exec {
         path => '/bin:/usr/bin',
