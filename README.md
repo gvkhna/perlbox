@@ -93,6 +93,7 @@ Pull requests are always welcome.
 ### 2.0:
 - Added [Module::CPANfile](https://github.com/miyagawa/cpanfile) support
 - Added Vagrantfile vm_url to [centos58](https://github.com/downloads/gauravk92/perlbox/centos58.box) via github
+- Added [permissive BSD license](http://www.gnu.org/licenses/license-list.html#ModifiedBSD)
 - Stability improvements
 - Bug fixes
 
