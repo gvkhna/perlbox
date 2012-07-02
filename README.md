@@ -24,9 +24,6 @@ Built with solid open source technologies:
 ### One elegantly simple command, watch this
 
     $ vagrant up
-
-##### CAUTION: Beer is highly recommended while you wait.
-
     [default] Box centos58 was not found. Fetching box from specified URL...
     [vagrant] Downloading with Vagrant::Downloaders::HTTP...
     [vagrant] Downloading box: https://github.com/downloads/gauravk92/perlbox/centos58.box
@@ -82,14 +79,14 @@ Pull requests are always welcome.
 ## Notes
 
 - [Perlbrew installation procedure](http://blog.fox.geek.nz/2010/09/installing-multiple-perls-with.html)
-- bootstrap.pl condenses the [veewee custom box build procedure](http://www.ducea.com/2011/08/15/building-vagrant-boxes-with-veewee)
-- veewee definitions are included for completeness
+- bootstrap.pl condenses the [veewee custom box build procedure](http://www.ducea.com/2011/08/15/building-vagrant-boxes-with-veewee) and is hosted as a gist [here](https://gist.github.com/3032167)
+- veewee definitions are included for completeness [here](https://github.com/downloads/gauravk92/perlbox/definitions.zip)
 
 ## Changelog
 
 ### 2.0:
 - Added [Module::CPANfile](https://github.com/miyagawa/cpanfile) support
-- Added Vagrantfile vm_url to [centos58@github/gauravk92](https://github.com/downloads/gauravk92/perlbox/centos58.box)
+- Added Vagrantfile vm_url to [centos58](https://github.com/downloads/gauravk92/perlbox/centos58.box) via github
 - Stability improvements
 - Bug fixes
 
