@@ -32,11 +32,14 @@ Vagrant::Config.run do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  # Ubuntu should work but isn't supported, stick to the defaults
-  #config.vm.box = "lucid32"
+  config.vm.box = "centos62"
+  config.vm.box_url = "https://github.com/downloads/gauravk92/perlbox/centos62.box"
 
-  config.vm.box = "centos58"
-  config.vm.box_url = "https://github.com/downloads/gauravk92/perlbox/centos58.box"
+  # config.vm.box = "centos58"
+  # config.vm.box_url = "https://github.com/downloads/gauravk92/perlbox/centos58.box"
+
+  # Ubuntu should work but isn't supported, stick to the defaults
+  # config.vm.box = "lucid32"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui
@@ -64,6 +67,6 @@ Vagrant::Config.run do |config|
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "."
     puppet.manifest_file = "perlbox.pp"
-    puppet.options = "--verbose --debug"
+    # puppet.options = "--verbose --debug"
   end
 end

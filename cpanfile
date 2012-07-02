@@ -1,5 +1,5 @@
 requires 'URI';
 requires 'Data::Dumper';
-#requires 'Modern::Perl';
+# requires 'Modern::Perl', '1.20120521';
 requires 'Mojolicious::Lite';
-#requires 'Imager';
+requires 'Imager::File::JPEG';

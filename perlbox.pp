@@ -33,7 +33,7 @@ group { 'puppet': ensure => present }
 import 'dependencies.pp'
 
 include update
-include setup
+include setup_user
 include perlbrew
 
 class update {
@@ -66,7 +66,7 @@ class update {
     }
 }
 
-class setup {
+class setup_user {
     user { $USER:
         ensure => present,
         home => $HOME
@@ -126,12 +126,6 @@ class perlbrew {
         command => "${PERLBREW_ROOT}/bin/perlbrew self-upgrade"
     }
 
-    # exec { 'Setup Perlbrew Shell Extension':
-    #     require => Exec['Perlbrew Self Upgrade'],
-    #     command => "echo 'source ${PERLBREW_ROOT}/etc/bashrc' >> ${BASHRC}",
-    #     unless => "grep 'source ${PERLBREW_ROOT}/etc/bashrc' ${BASHRC}"
-    # }
-
     define file_append($text) {
         exec { "echo '${text}' >> ${title}":
             require => Exec['Perlbrew Self Upgrade'],
@@ -142,17 +136,9 @@ class perlbrew {
 
     file_append { "${HOME}/.bashrc": text => "source ${PERLBREW_ROOT}/etc/bashrc" }
 
-    # Set `vagrant ssh' login to use this perl by default (turn off for debugging)
+    # Set `vagrant ssh' login to use perlbrew by default (turn off for debugging)
     file_append { "${HOME}/.profile": text => "perlbrew switch ${PERL_VERSION}" }
     file_append { "${HOME}/.bash_profile": text => "perlbrew switch ${PERL_VERSION}" }
-
-    # $PROFILE="${HOME}/.profile"
-    # exec { 'Setup Default Version (ubuntu) Extension':
-    #     require => [File[$PROFILE], Exec['Perlbrew Self Upgrade']],
-    #     command => "echo 'perlbrew switch ${PERL_VERSION}' >> ${PROFILE}",
-    #     unless => "grep 'perlbrew switch ${PERL_VERSION}' ${PROFILE}",
-    #     onlyif => "test -r ${PROFILE}"
-    # }
 
     exec { 'Perl Installation':
         require => Exec['Perlbrew Self Upgrade'],

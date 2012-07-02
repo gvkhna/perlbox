@@ -86,7 +86,7 @@ Pull requests are always welcome.
 
 - [Perlbrew installation procedure](http://blog.fox.geek.nz/2010/09/installing-multiple-perls-with.html)
 - bootstrap.pl condenses the [veewee custom box build procedure](http://www.ducea.com/2011/08/15/building-vagrant-boxes-with-veewee) and is hosted as a gist [here](https://gist.github.com/3032167)
-- veewee definitions are included for completeness [here](https://github.com/downloads/gauravk92/perlbox/definitions.zip)
+- veewee definitions are included for completeness [here](https://github.com/gauravk92/perlbox/downloads)
 
 ## Changelog
 
