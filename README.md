@@ -47,14 +47,16 @@ Pull requests are always welcome.
 - veewee definitions are included for [completeness](https://github.com/gauravk92/perlbox/downloads)
 - Ubuntu and centos58 are not on by default but should work
 - [Repackaging a vagrant box](http://till.klampaeckel.de/blog/archives/155-VirtualBox-Guest-Additions-and-vagrant.html) (with latest guest additions)
+- Fixed mount '/vagrant' bug by rebuilding VirtualBox guest additions via bootstrap.pl
 
 ## Changelog
 
 ### 2.0:
 - Added [Module::CPANfile](https://github.com/miyagawa/cpanfile) automatic dependency installation
-- Added vm url to [centos62](https://github.com/downloads/gauravk92/perlbox/centos62.box) via github
+- Added vm_url to [perl.box](https://github.com/downloads/gauravk92/perlbox/perl.box) via github
 - Added [permissive BSD license](http://www.gnu.org/licenses/license-list.html#ModifiedBSD)
 - Added dependencies.pp for declarative version controlled package management
+- Added prebuilt clean perl installation for significantly faster setup
 - Massive refactoring for better maintainability and declarativity
 - Massive reduction of assumptions in puppet provisioning script
 
