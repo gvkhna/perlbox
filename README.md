@@ -10,9 +10,10 @@ Reliable open source development stack:
 - [**App::cpanminus**](http://cpanmin.us/)
 - [**Module::CPANfile**](https://github.com/miyagawa/cpanfile)
 
-Built with solid open source technologies:
+Built using open source tools:
 
 - [Veewee](https://github.com/jedi4ever/veewee/)
+- [Veewee-templates-updater](https://github.com/mpapis/veewee-templates-updater)
 
 ## What do I need?
 
@@ -24,14 +25,16 @@ Built with solid open source technologies:
 
     $ vagrant up
 
-#### WARNING: It's not stuck, just give it anywhere from a few minutes to a few days!
+### The box comes with a clean perl installation, everythings good to go, enjoy.
 
-### Everythings good to go, enjoy.
-
-    $ echo 'which perl && which cpanm && cpanm Mojolicious::Lite' | vagrant ssh
+    $ vagrant ssh -c 'which perl && which cpanm && cpanm Mojolicious::Lite'
     /home/vagrant/perl5/perlbrew/perls/perl-5.16.0/bin/perl
     /home/vagrant/perl5/perlbrew/perls/perl-5.16.0/bin/cpanm
     Mojolicious::Lite is up to date.
+
+### If you make any changes to the dependencies, simply
+
+    $ vagrant provision
 
 ## How can I help?
 
@@ -43,6 +46,7 @@ Pull requests are always welcome.
 - bootstrap.pl condenses the [veewee custom box build procedure](http://www.ducea.com/2011/08/15/building-vagrant-boxes-with-veewee) and is hosted as a [gist](https://gist.github.com/3032167)
 - veewee definitions are included for [completeness](https://github.com/gauravk92/perlbox/downloads)
 - Ubuntu and centos58 are not on by default but should work
+- [Repackaging a vagrant box](http://till.klampaeckel.de/blog/archives/155-VirtualBox-Guest-Additions-and-vagrant.html) (with latest guest additions)
 
 ## Changelog
 

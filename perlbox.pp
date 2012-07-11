@@ -1,4 +1,4 @@
-# Copyright (c) 2012, Gaurav Khanna
+# Copyright (c) 2012, Gaurav Khanna <gauravk92@gmail.com>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -23,11 +23,12 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+
 $PERL_VERSION = '5.16.0'
 $USER = 'vagrant'
 $HOME = "/home/${USER}"
 
-# This is necessary due to a bug in the puppet CentOS installation
+## This is necessary due to a bug in the puppet package for CentOS
 group { 'puppet': ensure => present }
 
 case $operatingsystem {
@@ -36,10 +37,26 @@ case $operatingsystem {
     default: { fail("Unrecognized operating system for perlbox") }
 }
 
+## Need to check if file exists somehow
 import 'dependencies.pp'
 
 include user_setup
 include perlbrew
+
+class redhat {
+    $PKG_MGR = '/usr/bin/yum'
+
+    $CMD = $operatingsystemrelease ? {
+        /^6/ => 'distribution-synchronization',
+        default => 'update'
+    }
+
+    exec { 'Upgrade Repository Packages':
+        command => "${PKG_MGR} ${CMD} -y",
+        onlyif => "/usr/bin/test -x ${PKG_MGR}",
+        timeout => 2500
+    }
+}
 
 class debian {
     $PKG_MGR = '/usr/bin/apt-get'
@@ -58,21 +75,6 @@ class debian {
     }
 
     package { 'build-essential': ensure => latest }
-}
-
-class redhat {
-    $PKG_MGR = '/usr/bin/yum'
-
-    $CMD = $operatingsystemrelease ? {
-        /6/ => 'distribution-synchronization',
-        default => 'update'
-    }
-
-    exec { 'Upgrade Repository Packages':
-        command => "${PKG_MGR} ${CMD} -y",
-        onlyif => "/usr/bin/test -x ${PKG_MGR}",
-        timeout => 2500
-    }
 }
 
 class user_setup {
@@ -106,6 +108,7 @@ class perlbrew {
         user => $USER,
         group => $USER,
         cwd => $HOME,
+        tries => 3,
         #logoutput => true,
         environment => ["PERLBREW_ROOT=${PERLBREW_ROOT}", "HOME=${HOME}"]
     }
@@ -145,7 +148,7 @@ class perlbrew {
 
     file_append { "${HOME}/.bashrc": text => "source ${PERLBREW_ROOT}/etc/bashrc" }
 
-    # Set `vagrant ssh' login to use perlbrew by default (turn off for debugging)
+    ## Set `vagrant ssh' login to use perlbrew by default (turn off for debugging)
     file_append { "${HOME}/.profile": text => "perlbrew switch ${PERL_VERSION}" }
     file_append { "${HOME}/.bash_profile": text => "perlbrew switch ${PERL_VERSION}" }
 
@@ -153,8 +156,7 @@ class perlbrew {
         require => Exec['Perlbrew Self Upgrade'],
         command => "${PERLBREW_ROOT}/bin/perlbrew install -j 4 ${PERL_VERSION}",
         creates => $PERL,
-        timeout => 10000,
-        tries => 3
+        timeout => 10000
     }
 
     exec { 'App::cpanminus Installation':
@@ -199,11 +201,7 @@ class perlbrew {
 
 }
 
-## rebuild virtualbox tools
-# sudo /etc/init.d/vboxadd setup
-# unless => 'grep 'vboxsf' /proc/modules
-
-# print all puppet facts (useful for debugging)
+## print all puppet facts (useful for debugging)
 file { "/tmp/facts.yaml":
     content => inline_template("<%= scope.to_hash.reject { |k,v| \
    !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>"),

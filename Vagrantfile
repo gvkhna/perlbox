@@ -1,7 +1,4 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-# Copyright (c) 2012, Gaurav Khanna
+# Copyright (c) 2012, Gaurav Khanna <gauravk92@gmail.com>mv
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -32,14 +29,8 @@ Vagrant::Config.run do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.box = "centos62"
-  config.vm.box_url = "https://github.com/downloads/gauravk92/perlbox/centos62.box"
-
-  # config.vm.box = "centos58"
-  # config.vm.box_url = "https://github.com/downloads/gauravk92/perlbox/centos58.box"
-
-  # Ubuntu should work but isn't supported, stick to the defaults
-  # config.vm.box = "lucid32"
+  config.vm.box = "perlbox"
+  config.vm.box_url = "https://github.com/downloads/gauravk92/perlbox/perl.box"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui
