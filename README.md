@@ -49,6 +49,11 @@ Pull requests are always welcome.
 - [Repackaging a vagrant box](http://till.klampaeckel.de/blog/archives/155-VirtualBox-Guest-Additions-and-vagrant.html) (with latest guest additions)
 - Fixed mount '/vagrant' bug by rebuilding VirtualBox guest additions via bootstrap.pl
 
+## TODO
+- puppet-hiera support
+- remove default dependencies.pp
+- remove
+
 ## Changelog
 
 ### 2.0:
