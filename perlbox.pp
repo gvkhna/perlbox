@@ -40,6 +40,7 @@ case $operatingsystem {
 ## Need to check if file exists somehow
 import 'dependencies.pp'
 
+include guest_additions
 include user_setup
 include perlbrew
 
@@ -75,6 +76,14 @@ class debian {
     }
 
     package { 'build-essential': ensure => latest }
+}
+
+class guest_additions {
+    exec { 'Rebuild Guest Additions':
+        user => root,
+        command => "/etc/init.d/vboxadd setup",
+        #unless => "/sbin/lsmod | grep vboxsf"
+    }
 }
 
 class user_setup {
@@ -203,6 +212,7 @@ class perlbrew {
 
 ## print all puppet facts (useful for debugging)
 file { "/tmp/facts.yaml":
-    content => inline_template("<%= scope.to_hash.reject { |k,v| \
-   !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>"),
+    content => inline_template("<%= scope.to_yaml %>")
+   #  content => inline_template("<%= scope.to_hash.reject { |k,v| \
+   # !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>")
 }

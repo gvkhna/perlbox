@@ -4,3 +4,4 @@ requires 'Data::Dump';
 requires 'Mojolicious::Lite';
 requires 'Imager::File::JPEG';
 requires 'Imager::File::PNG';
+requires 'Wight';

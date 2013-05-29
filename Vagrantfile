@@ -1,4 +1,4 @@
-# Copyright (c) 2012, Gaurav Khanna <gauravk92@gmail.com>mv
+# Copyright (c) 2012, Gaurav Khanna <gauravk92@gmail.com>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
