@@ -24,24 +24,33 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-$PERL_VERSION = '5.16.0'
-$USER = 'vagrant'
-$HOME = "/home/${USER}"
+$PERL_VERSION = '5.16.0' # Needs to be moved to hiera
+
+if $operatingsystem == 'amazon' {
+    $USER = 'ec2-user'
+} else {
+    $USER = 'vagrant'
+}
+
+$USER_HOME = "/home/${USER}" # Hate that this is a variable
 
 ## This is necessary due to a bug in the puppet package for CentOS
 group { 'puppet': ensure => present }
 
 case $operatingsystem {
-    centos, redhat: { include redhat }
+    centos, amazon, redhat: { include redhat }
     debian, ubuntu: { include debian }
     default: { fail("Unrecognized operating system for perlbox") }
 }
 
-## Need to check if file exists somehow
-import 'dependencies.pp'
+Exec {
+    logoutput => true
+}
 
-include guest_additions
-include user_setup
+# Depreciated: import 'dependencies.pp'
+
+# HACKY: include guest_additions
+# CRUFTY: include user_setup
 include perlbrew
 
 class redhat {
@@ -57,8 +66,17 @@ class redhat {
         onlyif => "/usr/bin/test -x ${PKG_MGR}",
         timeout => 2500
     }
+
+    exec { 'Install Package Dependencies':
+        command => "${PKG_MGR} install -y $(cat /${USER}/pkgfile)",
+        onlyif => "/usr/bin/test -r /${USER}/pkgfile",
+        timeout => 2500
+    }
 }
 
+#############
+# NOT USED --
+#############
 class debian {
     $PKG_MGR = '/usr/bin/apt-get'
 
@@ -70,6 +88,7 @@ class debian {
 
     exec { 'Upgrade Repository Packages':
         require => Exec['Update Repository Packages'],
+        user => root,
         command => "${PKG_MGR} upgrade -y",
         onlyif => "/usr/bin/test -x ${PKG_MGR}",
         timeout => 2500
@@ -77,7 +96,6 @@ class debian {
 
     package { 'build-essential': ensure => latest }
 }
-
 class guest_additions {
     exec { 'Rebuild Guest Additions':
         user => root,
@@ -85,11 +103,11 @@ class guest_additions {
         #unless => "/sbin/lsmod | grep vboxsf"
     }
 }
-
 class user_setup {
     user { $USER:
         ensure => present,
-        home => $HOME
+        home => $USER_HOME,
+        gid => $USER
     }
 
     group { $USER: ensure => present }
@@ -99,16 +117,19 @@ class user_setup {
     file { 'Home Directory Validation':
         require => File['/home'],
         ensure => directory,
-        path => $HOME,
+        path => $USER_HOME,
         owner => $USER,
         group => $USER,
-        mode => 700,
+        mode => 700
     }
 }
+#############
+# NOT USED --
+#############
 
 class perlbrew {
     $PERL_NAME = "perl-${PERL_VERSION}"
-    $PERLBREW_ROOT = "${HOME}/perl5/perlbrew"
+    $PERLBREW_ROOT = "${USER_HOME}/perl5/perlbrew"
     $CPANM = "${PERLBREW_ROOT}/perls/${PERL_NAME}/bin/cpanm"
     $PERL = "${PERLBREW_ROOT}/perls/${PERL_NAME}/bin/perl"
 
@@ -116,10 +137,9 @@ class perlbrew {
         path => '/bin:/usr/bin',
         user => $USER,
         group => $USER,
-        cwd => $HOME,
+        cwd => $USER_HOME,
         tries => 3,
-        #logoutput => true,
-        environment => ["PERLBREW_ROOT=${PERLBREW_ROOT}", "HOME=${HOME}"]
+        environment => ["PERLBREW_ROOT=${PERLBREW_ROOT}", "HOME=${USER_HOME}"]
     }
 
     File {
@@ -129,6 +149,7 @@ class perlbrew {
     }
 
     package { curl: ensure => latest }
+    package { gcc: ensure => latest }
 
     exec { 'Perlbrew Installation':
         require => Package['curl'],
@@ -144,25 +165,26 @@ class perlbrew {
 
     exec { 'Perlbrew Self Upgrade':
         require => Exec['Perlbrew Initialization'],
-        command => "${PERLBREW_ROOT}/bin/perlbrew self-upgrade"
+        command => "${PERLBREW_ROOT}/bin/perlbrew self-upgrade",
+        tries => 5
     }
 
     define file_append($text) {
         exec { "echo '${text}' >> ${title}":
             require => Exec['Perlbrew Self Upgrade'],
             unless => "grep '${text}' ${title}",
-            onlyif => "test -w ${title}"
+            onlyif => "/usr/bin/test -w ${title}"
         }
     }
 
-    file_append { "${HOME}/.bashrc": text => "source ${PERLBREW_ROOT}/etc/bashrc" }
+    file_append { "${USER_HOME}/.bashrc": text => "source ${PERLBREW_ROOT}/etc/bashrc" }
 
     ## Set `vagrant ssh' login to use perlbrew by default (turn off for debugging)
-    file_append { "${HOME}/.profile": text => "perlbrew switch ${PERL_VERSION}" }
-    file_append { "${HOME}/.bash_profile": text => "perlbrew switch ${PERL_VERSION}" }
+    file_append { "${USER_HOME}/.profile": text => "perlbrew switch ${PERL_VERSION}" }
+    file_append { "${USER_HOME}/.bash_profile": text => "perlbrew switch ${PERL_VERSION}" }
 
     exec { 'Perl Installation':
-        require => Exec['Perlbrew Self Upgrade'],
+        require => [Package['gcc'], Exec['Perlbrew Self Upgrade']],
         command => "${PERLBREW_ROOT}/bin/perlbrew install -j 4 ${PERL_VERSION}",
         creates => $PERL,
         timeout => 10000
@@ -192,7 +214,8 @@ class perlbrew {
 
     exec { 'App::CPAN::Fresh Installation':
         require => Exec['App::cpanoutdated Execution'],
-        command => "${CPANM} App::CPAN::Fresh"
+        command => "${CPANM} App::CPAN::Fresh",
+        timeout => 10000 # Updates may cause timeout error
     }
 
     exec { 'Module::CPANfile Installation':
@@ -204,7 +227,7 @@ class perlbrew {
         require => Exec['Module::CPANfile Installation'],
         provider => shell,
         command => "${CPANM} -q --installdeps /${USER}",
-        onlyif => "test -r /${USER}/cpanfile",
+        onlyif => "/usr/bin/test -r /${USER}/cpanfile",
         logoutput => true
     }
 
@@ -212,7 +235,6 @@ class perlbrew {
 
 ## print all puppet facts (useful for debugging)
 file { "/tmp/facts.yaml":
-    content => inline_template("<%= scope.to_yaml %>")
-   #  content => inline_template("<%= scope.to_hash.reject { |k,v| \
-   # !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>")
+    content => inline_template("<%= scope.to_hash.reject { |k,v| \
+    !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>")
 }

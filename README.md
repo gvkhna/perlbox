@@ -1,23 +1,28 @@
-## What is this?
+#[**perlbox**](https://github.com/gauravk92/perlbox):
 
-[**perlbox**](https://github.com/gauravk92/perlbox): The lightweight portable reproducible perl virtualized development environment with baked-in CPAN and package automatic declarative version controlled dependency management.
+The lightweight portable reproducible perl virtualized development environment with baked-in CPAN and package automatic declarative version controlled dependency management.
 
-Reliable open source development stack:
+Production stack:
 
-- [**CentOS**](http://centos.org) v6.2 x86_64
-- [**Perlbrew**](http://perlbrew.pl/)
-- [**Perl**](http://www.perl.org/) v5.16.0
-- [**App::cpanminus**](http://cpanmin.us/)
-- [**Module::CPANfile**](https://github.com/miyagawa/cpanfile)
+> [Perl](http://www.perl.org/) v5.16.0
+>
+> [CentOS](http://centos.org) v6.2 x86_64
 
-Built using open source tools:
+Assembled from these open source projects:
 
-- [Veewee](https://github.com/jedi4ever/veewee/)
-- [Veewee-templates-updater](https://github.com/mpapis/veewee-templates-updater)
+> [Perlbrew](http://perlbrew.pl/)
+>
+> [App::cpanminus](http://cpanmin.us/)
+>
+> [Module::CPANfile](https://github.com/miyagawa/cpanfile)
+>
+> [Veewee](https://github.com/jedi4ever/veewee/)
+>
+> [Veewee-templates-updater](https://github.com/mpapis/veewee-templates-updater)
 
 ## What do I need?
 
-- [Vagrant](http://vagrantup.com/)
+> [Vagrant](http://vagrantup.com/)
 
 ## What do I do?
 
@@ -43,16 +48,15 @@ Pull requests are always welcome.
 ## Notes
 
 - [Perlbrew installation procedure](http://blog.fox.geek.nz/2010/09/installing-multiple-perls-with.html)
-- bootstrap.pl condenses the [veewee custom box build procedure](http://www.ducea.com/2011/08/15/building-vagrant-boxes-with-veewee) and is hosted as a [gist](https://gist.github.com/3032167)
+- bootstrap.pl condenses the [veewee build procedure](http://www.ducea.com/2011/08/15/building-vagrant-boxes-with-veewee) and is hosted as a [gist](https://gist.github.com/3032167)
 - veewee definitions are included for [completeness](https://github.com/gauravk92/perlbox/downloads)
 - Ubuntu and centos58 are not on by default but should work
 - [Repackaging a vagrant box](http://till.klampaeckel.de/blog/archives/155-VirtualBox-Guest-Additions-and-vagrant.html) (with latest guest additions)
-- Fixed mount '/vagrant' bug by rebuilding VirtualBox guest additions via bootstrap.pl
+- Fixed mount '/vagrant' bug by rebuilding VirtualBox guest additions
 
 ## TODO
 - puppet-hiera support
 - remove default dependencies.pp
-- remove
 
 ## Changelog
 

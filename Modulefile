@@ -1,0 +1,8 @@
+name 'gauravk92-perlbox'
+version '2.0.0'
+author 'Gaurav Khanna'
+license 'BSD'
+project_page 'https://github.com/gauravk92/perlbox'
+source 'https://github.com/gauravk92/perlbox'
+summary 'Puppet module for modern perl development'
+description 'The lightweight portable reproducible perl virtualized development environment with baked-in CPAN and package automatic declarative version controlled dependency management.'
