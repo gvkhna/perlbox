@@ -30,7 +30,7 @@ Vagrant::Config.run do |config|
   # please see the online documentation at vagrantup.com.
 
   config.vm.box = "perlbox"
-  config.vm.box_url = "https://github.com/downloads/gauravk92/perlbox/perl.box"
+  #config.vm.box_url = "https://github.com/downloads/gauravk92/perlbox/perl.box"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui
@@ -56,8 +56,8 @@ Vagrant::Config.run do |config|
   # config.vm.share_folder "v-data", "/vagrant_data", "../data"
 
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "."
-    puppet.manifest_file = "perlbox.pp"
-    # puppet.options = "--verbose --debug"
+    #puppet.manifests_path = "."
+    #puppet.manifest_file = "perlbox.pp"
+    puppet.options = "--verbose --debug"
   end
 end
