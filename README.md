@@ -1,14 +1,8 @@
 #[**perlbox**](https://github.com/gauravk92/perlbox):
 
-[![Build Status](https://travis-ci.org/gauravk92/perlbox.png)](https://travis-ci.org/gauravk92/perlbox) [![Code Climate](https://codeclimate.com/github/gauravk92/perlbox.png)](https://codeclimate.com/github/gauravk92/perlbox)
+[![Build Status](https://travis-ci.org/gauravk92/perlbox.png)](https://travis-ci.org/gauravk92/perlbox) [![Code Climate](https://codeclimate.com/github/gauravk92/perlbox.png)](https://codeclimate.com/github/gauravk92/perlbox) [![Gem Version](https://badge.fury.io/rb/perlbox.png)](http://badge.fury.io/rb/perlbox)
 
 The lightweight portable reproducible perl virtualized development environment with baked-in CPAN and package automatic declarative version controlled dependency management.
-
-Production stack:
-
-> [Perl](http://www.perl.org/) v5.16.0
->
-> [CentOS](http://centos.org) v6.2 x86_64
 
 Assembled from these open source projects:
 
@@ -17,14 +11,14 @@ Assembled from these open source projects:
 > [App::cpanminus](http://cpanmin.us/)
 >
 > [Module::CPANfile](https://github.com/miyagawa/cpanfile)
->
-> [Veewee](https://github.com/jedi4ever/veewee/)
->
-> [Veewee-templates-updater](https://github.com/mpapis/veewee-templates-updater)
+
+Works nicely with:
+
+> [Vagrant](http://vagrantup.com/)
 
 ## What do I need?
 
-> [Vagrant](http://vagrantup.com/)
+> [Perlbox](http://rubygems.org/perlbox/)
 
 ## What do I do?
 
@@ -122,16 +116,3 @@ Pull requests are always welcome.
 
 ## TODO
 - puppet-hiera support
-
-## Changelog
-
-### 2.0:
-- Added [Module::CPANfile](https://github.com/miyagawa/cpanfile) automatic dependency installation
-- Added vm_url to [perl.box](https://github.com/downloads/gauravk92/perlbox/perl.box) via github
-- Added [permissive BSD license](http://www.gnu.org/licenses/license-list.html#ModifiedBSD)
-- Added dependencies.pp for declarative version controlled package management
-- Massive refactoring for better maintainability and declarativity
-- Massive reduction of assumptions in puppet provisioning script
-
-### 1.0:
-- Initial commit
