@@ -122,7 +122,6 @@ Pull requests are always welcome.
 
 ## TODO
 - puppet-hiera support
-- remove default dependencies.pp
 
 ## Changelog
 
@@ -131,7 +130,6 @@ Pull requests are always welcome.
 - Added vm_url to [perl.box](https://github.com/downloads/gauravk92/perlbox/perl.box) via github
 - Added [permissive BSD license](http://www.gnu.org/licenses/license-list.html#ModifiedBSD)
 - Added dependencies.pp for declarative version controlled package management
-- Added prebuilt clean perl installation for significantly faster setup
 - Massive refactoring for better maintainability and declarativity
 - Massive reduction of assumptions in puppet provisioning script
 
