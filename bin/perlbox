@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'perlbox'
+puts Perlbox.start(ARGV[0])
