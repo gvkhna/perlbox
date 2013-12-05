@@ -1,0 +1,4 @@
+# This is a template used only for rspec tests
+
+# Yaml of the whole scope
+<%= scope.to_hash.reject { |k,v| !( k.is_a?(String) && v.is_a?(String) ) }.to_yaml %>
