@@ -118,7 +118,7 @@ Pull requests are always welcome.
 - Ubuntu and centos58 are not on by default but should work
 - [Repackaging a vagrant box](http://till.klampaeckel.de/blog/archives/155-VirtualBox-Guest-Additions-and-vagrant.html) (with latest guest additions)
 - Fixed mount '/vagrant' bug by rebuilding VirtualBox guest additions
-- [automatically test your puppet modules with travis ci](http://bombasticmonkey.com/2012/03/02/automatically-test-your-puppet-modules-with-travis-ci/)[![Code Climate](https://codeclimate.com/github/gauravk92/perlbox.png)](https://codeclimate.com/github/gauravk92/perlbox)
+- [automatically test your puppet modules with travis ci](http://bombasticmonkey.com/2012/03/02/automatically-test-your-puppet-modules-with-travis-ci/)
 
 ## TODO
 - puppet-hiera support
