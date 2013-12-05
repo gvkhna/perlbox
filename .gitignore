@@ -2,3 +2,4 @@
 .vagrant/
 *.box
 _site/
+*.gem
