@@ -1,5 +1,5 @@
 # Class removal
 #
-class { 'perl':
+class { 'perlbox':
   absent => true,
 }

@@ -1,4 +1,4 @@
 # Default class installation
 #
-class { 'perl':
+class { 'perlbox':
 }

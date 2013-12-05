@@ -1,8 +1,7 @@
-class Perlbox
-  def self.start
-    installer = Installer.new
-    installer.install
-  end
-end
+require 'rubygems'
 
-require 'perlbox/installer'
+module Perlbox
+  require 'pathname'
+
+  autoload :Command, 'perlbox/command'
+end
