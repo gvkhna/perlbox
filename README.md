@@ -7,8 +7,12 @@ The lightweight portable reproducible perl virtualized development environment w
 Assembled from these open source projects:
 
 > [Perlbrew](http://perlbrew.pl/)
+>
 > [App::cpanminus](http://cpanmin.us/)
+>
 > [Module::CPANfile](https://github.com/miyagawa/cpanfile)
+>
+> [puppetlabs/puppet](https://github.com/puppetlabs/puppet)
 
 Works nicely with:
 
@@ -35,73 +39,16 @@ Works nicely with:
 
     $ vagrant provision
 
-## USAGE - Basic setup
-
-Install perlbox with default settings
-
-    class { 'perlbox': }
-
-Install perlbox with a specific perl version
-
-    class { 'perlbox':
-      perl_version => '5.16.0'
-    }
-
-Remove perlbox resources
-
-    class { 'perlbox':
-      absent => true
-    }
-
-Module dry-run: Do not make any change on *all* the resources provided by the module
-
-    class { 'perlbox':
-      noops => true
-    }
-
 ## USAGE - Modules installation
 
-Perlbox supports `cpanfile` in the root project directory
+Perlbox supports `cpanfile` in the root of the project directory
 
     Imager::PNG
     Imager::JPEG
 
-Or specify module requirements directly with Puppet
-
-    perlbox::module { 'Imager::PNG': }
-
-Remove a previously installed module
-
-    perlbox::module { 'Imager::PNG':
-      ensure => absent,
-    }
-
 ## USAGE - Package installation
 
-You can specify a package as a dependency of the module it's required by
-
-    perlbrew::module { 'Imager::PNG':
-      require => Perlbox::Package['libpng-dev']
-    }
-
-Or support multiple operating system package names
-
-    perlbrew::module { 'Imager::PNG':
-      require => case $operatingsystem {
-        centos, amazon, redhat: {
-            Perlbox::Package['libpng-devel'] }
-        debian, ubuntu: {
-            Perlbox::Package['libpng-dev'] }
-        default: {
-            fail("Unrecognized operating system for perlbox") }
-      }
-    }
-
-Or require packages directly
-
-    perlbox::package { 'libjpeg-dev': }
-
-Or use `pkgfile` in the root of the project directory
+Use `pkgfile` in the root of the project directory
 
     libpng-dev
     libjpeg-dev
@@ -140,15 +87,3 @@ Run `vagrant reload` and the box will reboot with the updated guest additions:
 	...
 
 Then you can run `vagrant provision` to provision the box as normal.
-
-
-## How can I help?
-
-Pull requests are always welcome.
-
-## Notes
-
-- [Perlbrew installation procedure](http://blog.fox.geek.nz/2010/09/installing-multiple-perls-with.html)
-- [Repackaging a vagrant box](http://till.klampaeckel.de/blog/archives/155-VirtualBox-Guest-Additions-and-vagrant.html) (with latest guest additions)
-- ~~Fixed~~ mount '/vagrant' bug by rebuilding VirtualBox guest additions (see [VirtualBox guest additions version problems](https://github.com/gauravk92/perlbox#virtualbox-guest-additions-version-problems) Thanks @shedd)
-- [automatically test your puppet modules with travis ci](http://bombasticmonkey.com/2012/03/02/automatically-test-your-puppet-modules-with-travis-ci/)
