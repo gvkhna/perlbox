@@ -205,12 +205,6 @@ class perlbrew {
         command => "${PERLBREW_ROOT}/perls/${PERL_NAME}/bin/cpan-outdated"
     }
 
-    exec { 'App::CPAN::Fresh Installation':
-        require => Exec['App::cpanoutdated Execution'],
-        command => "${CPANM} App::CPAN::Fresh",
-        timeout => 10000 # Updates may cause timeout error
-    }
-
     exec { 'Module::CPANfile Installation':
         require => Exec['App::CPAN::Fresh Installation'],
         command => "${CPANM} Module::CPANfile"

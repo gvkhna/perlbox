@@ -1,6 +1,6 @@
 #[**perlbox**](https://github.com/gauravk92/perlbox):
 
-The lightweight portable reproducible perl virtualized development environment with baked-in CPAN and package automatic declarative version controlled dependency management.
+The Portable Reproducible perl Virtualized Development Environment with Automatic Declarative APT Package and CPAN Module Version Control Dependency Management.
 
 Production stack:
 
@@ -15,6 +15,8 @@ Assembled from these open source projects:
 > [App::cpanminus](http://cpanmin.us/)
 >
 > [Module::CPANfile](https://github.com/miyagawa/cpanfile)
+>
+> [App::cpanoutdated](http://www.freshports.org/devel/p5-App-cpanoutdated/)
 
 ## What do I need?
 
@@ -22,9 +24,21 @@ Assembled from these open source projects:
 
 ## What do I do?
 
-### One elegantly simple command, watch this
+### One command, walk away[^readlog]
 
-    $ vagrant up
+> Make sure you have installed the hashicorp box
+	$ vagrant init hashicorp/precise64
+
+> Make sure you have installed the vbguest plugin if you already haven't
+
+		$ vagrant plugin install vagrant-vbguest
+
+    git clone https://github.com/gauravk92/perlbox my-perlbox \
+    && cd my-perlbox \
+    && vagrant up \
+    && vagrant ssh -c 'perl /vagrant/helloworld.pl'
+
+[^readlog] Or simply see the full output here:
 
 ### The box comes with a clean perl installation, everythings good to go, enjoy.
 
