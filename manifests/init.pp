@@ -167,10 +167,6 @@ class perlbrew {
 
     file_append { "${USER_HOME}/.bashrc": text => "source ${PERLBREW_ROOT}/etc/bashrc" }
 
-    ## Set `vagrant ssh' login to use perlbrew by default (turn off for debugging)
-    file_append { "${USER_HOME}/.profile": text => "perlbrew switch ${PERL_VERSION}" }
-    file_append { "${USER_HOME}/.bash_profile": text => "perlbrew switch ${PERL_VERSION}" }
-
     exec { 'Perl Installation':
         require => [Package['gcc'], Exec['Perlbrew Self Upgrade']],
         command => "${PERLBREW_ROOT}/bin/perlbrew install -j 4 ${PERL_VERSION}",
