@@ -36,7 +36,7 @@ Uses these open source projects:
 
 > Clone into the project directory
 
-    git clone https://github.com/gauravk92/perlbox my-perlbox \
+    git clone -b release https://github.com/gauravk92/perlbox my-perlbox \
     && cd my-perlbox \
     && vagrant up \
     && vagrant ssh -c 'perl /vagrant/helloworld.pl'
