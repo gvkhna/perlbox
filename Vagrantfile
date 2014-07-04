@@ -30,7 +30,7 @@ Vagrant.configure("2") do |config|
   # please see the online documentation at vagrantup.com.
 
   config.vm.box = "perlbox"
-  config.vm.box_url = "https://github.com/downloads/gauravk92/perlbox/perl.box"
+  #config.vm.box_url = "https://github.com/downloads/gauravk92/perlbox/perl.box"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
   # config.vm.boot_mode = :gui
@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
   # config.vm.forward_port 80, 8080
 
   # setup synced folder: "local host machine path", "path on guest vm"
-  config.vm.synced_folder "../data", "/vagrant_data"
+  #config.vm.synced_folder "../data", "/vagrant_data"
 
   config.vm.provision :puppet do |puppet|
     # Vagrant unable to find manifest without this specified
