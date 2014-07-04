@@ -8,7 +8,7 @@ Production stack:
 >
 > [Precise64](https://vagrantcloud.com/hashicorp/precise64) "A standard Ubuntu 12.04 LTS 64-bit box."
 
-Assembled from these open source projects:
+Uses these open source projects:
 
 > [Perlbrew](http://perlbrew.pl/)
 >
@@ -18,36 +18,47 @@ Assembled from these open source projects:
 >
 > [App::cpanoutdated](http://www.freshports.org/devel/p5-App-cpanoutdated/)
 
-## What do I need?
+## Built on top of Vagrant
 
 > [Vagrant](http://vagrantup.com/)
 
-## What do I do?
+## Installation: What do I do?
 
-### One command, walk away[^readlog]
+### Walk away[^readlog]
 
 > Make sure you have installed the hashicorp box
+
 	$ vagrant init hashicorp/precise64
 
 > Make sure you have installed the vbguest plugin if you already haven't
 
 		$ vagrant plugin install vagrant-vbguest
 
+> Clone into the project directory
+
     git clone https://github.com/gauravk92/perlbox my-perlbox \
     && cd my-perlbox \
     && vagrant up \
     && vagrant ssh -c 'perl /vagrant/helloworld.pl'
 
-[^readlog] Or simply see the full output here:
+[^readlog] See the full output here:
 
-### The box comes with a clean perl installation, everythings good to go, enjoy.
+### The box comes with a clean perl installation
 
     $ vagrant ssh -c 'which perl && which cpanm && cpanm Mojolicious::Lite'
     /home/vagrant/perl5/perlbrew/perls/perl-5.16.0/bin/perl
     /home/vagrant/perl5/perlbrew/perls/perl-5.16.0/bin/cpanm
     Mojolicious::Lite is up to date.
 
-### If you make any changes to the dependencies, simply
+### If you want to add an APT Package
+
+> move the template/pkgfile to the perlbox directory
+
+### If you want to add a CPAN Module
+
+> move the template/cpanfile to the perlbox directory
+
+### If you make any changes to the dependencies
 
     $ vagrant provision
 
@@ -121,15 +132,7 @@ Pull requests are always welcome.
 ## Notes
 
 - [Perlbrew installation procedure](http://blog.fox.geek.nz/2010/09/installing-multiple-perls-with.html)
-- bootstrap.pl condenses the [veewee build procedure](http://www.ducea.com/2011/08/15/building-vagrant-boxes-with-veewee) and is hosted as a [gist](https://gist.github.com/3032167)
-- veewee definitions are included for [completeness](https://github.com/gauravk92/perlbox/downloads)
-- Ubuntu and centos58 are not on by default but should work
 - [Repackaging a vagrant box](http://till.klampaeckel.de/blog/archives/155-VirtualBox-Guest-Additions-and-vagrant.html) (with latest guest additions)
-- Fixed mount '/vagrant' bug by rebuilding VirtualBox guest additions
-
-## TODO
-- puppet-hiera support
-- remove default dependencies.pp
 
 ## Changelog
 
