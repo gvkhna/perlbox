@@ -1,6 +1,6 @@
 #[**perlbox**](https://github.com/gauravk92/perlbox):
 
-The Reproducible perl Virtualized Development Environment with Automatic Declarative APT Package and CPAN Module Version Control Dependency Management.
+The Portable `perl` Virtualized Development Environment with Automatic Declarative APT Package and CPAN Module Version Control Dependency Management.
 
 Production stack:
 
@@ -24,8 +24,6 @@ Uses these open source projects:
 
 ## Installation: What do I do?
 
-### Walk away[^readlog]
-
 > Make sure you have installed the Precise64 box
 
 	$ vagrant init hashicorp/precise64
@@ -41,7 +39,7 @@ Uses these open source projects:
     && vagrant up \
     && vagrant ssh -c 'perl /vagrant/helloworld.pl'
 
-[^readlog] See the full output here:
+See the full output here:
 
 ### The box comes with a clean perl installation
 
