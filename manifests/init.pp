@@ -26,13 +26,14 @@
 
 $PERL_VERSION = '5.20.0' # Needs to be moved to hiera
 
+# Support AWS
 if $operatingsystem == 'amazon' {
     $USER = 'ec2-user'
 } else {
     $USER = 'vagrant'
 }
 
-$USER_HOME = "/home/${USER}" # Hate that this is a variable
+$USER_HOME = "/home/${USER}"
 
 ## This is necessary due to a bug in the puppet package for CentOS
 group { 'puppet': ensure => present }
@@ -91,13 +92,7 @@ class debian {
 
     package { 'build-essential': ensure => latest }
 }
-class guest_additions {
-    exec { 'Rebuild Guest Additions':
-        user => root,
-        command => "/etc/init.d/vboxadd setup",
-        #unless => "/sbin/lsmod | grep vboxsf"
-    }
-}
+
 class user_setup {
     user { $USER:
         ensure => present,
@@ -206,7 +201,7 @@ class perlbrew {
     }
 
     exec { 'Module::CPANfile Installation':
-        require => Exec['App::CPAN::Fresh Installation'],
+        require => Exec['App::cpanoutdated Execution'],
         command => "${CPANM} Module::CPANfile"
     }
 
