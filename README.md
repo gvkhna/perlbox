@@ -1,6 +1,6 @@
 #[**perlbox**](https://github.com/gauravk92/perlbox):
 
-The Portable Reproducible perl Virtualized Development Environment with Automatic Declarative APT Package and CPAN Module Version Control Dependency Management.
+The Reproducible perl Virtualized Development Environment with Automatic Declarative APT Package and CPAN Module Version Control Dependency Management.
 
 Production stack:
 
@@ -26,7 +26,7 @@ Uses these open source projects:
 
 ### Walk away[^readlog]
 
-> Make sure you have installed the hashicorp box
+> Make sure you have installed the Precise64 box
 
 	$ vagrant init hashicorp/precise64
 
