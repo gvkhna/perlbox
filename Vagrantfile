@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.box = "perlbox"
+  config.vm.box = "hashicorp/precise64"
   #config.vm.box_url = "https://github.com/downloads/gauravk92/perlbox/perl.box"
 
   # Boot with a GUI so you can see the screen. (Default is headless)
