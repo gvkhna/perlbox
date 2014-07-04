@@ -32,7 +32,7 @@ Uses these open source projects:
 
 > Make sure you have installed the vbguest plugin if you already haven't
 
-		$ vagrant plugin install vagrant-vbguest
+	$ vagrant plugin install vagrant-vbguest
 
 > Clone into the project directory
 
