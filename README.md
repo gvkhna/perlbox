@@ -4,9 +4,9 @@ The lightweight portable reproducible perl virtualized development environment w
 
 Production stack:
 
-> [Perl](http://www.perl.org/) v5.16.0
+> [Perl](http://www.perl.org/) v5.20.0
 >
-> [CentOS](http://centos.org) v6.2 x86_64
+> [Precise64](https://vagrantcloud.com/hashicorp/precise64) "A standard Ubuntu 12.04 LTS 64-bit box."
 
 Assembled from these open source projects:
 
@@ -15,10 +15,6 @@ Assembled from these open source projects:
 > [App::cpanminus](http://cpanmin.us/)
 >
 > [Module::CPANfile](https://github.com/miyagawa/cpanfile)
->
-> [Veewee](https://github.com/jedi4ever/veewee/)
->
-> [Veewee-templates-updater](https://github.com/mpapis/veewee-templates-updater)
 
 ## What do I need?
 
@@ -122,6 +118,10 @@ Pull requests are always welcome.
 - remove default dependencies.pp
 
 ## Changelog
+
+### 3.0:
+- Switched to Perl v5.20.0 (latest version to-date)
+- Removed CentOS in favor of Ubuntu
 
 ### 2.0:
 - Added [Module::CPANfile](https://github.com/miyagawa/cpanfile) automatic dependency installation

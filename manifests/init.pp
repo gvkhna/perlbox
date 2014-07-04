@@ -24,7 +24,7 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-$PERL_VERSION = '5.16.0' # Needs to be moved to hiera
+$PERL_VERSION = '5.20.0' # Needs to be moved to hiera
 
 if $operatingsystem == 'amazon' {
     $USER = 'ec2-user'
@@ -47,10 +47,7 @@ Exec {
     logoutput => true
 }
 
-# Depreciated: import 'dependencies.pp'
 
-# HACKY: include guest_additions
-# CRUFTY: include user_setup
 include perlbrew
 
 class redhat {
@@ -74,9 +71,7 @@ class redhat {
     }
 }
 
-#############
-# NOT USED --
-#############
+
 class debian {
     $PKG_MGR = '/usr/bin/apt-get'
 
@@ -123,9 +118,7 @@ class user_setup {
         mode => 700
     }
 }
-#############
-# NOT USED --
-#############
+
 
 class perlbrew {
     $PERL_NAME = "perl-${PERL_VERSION}"
