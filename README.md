@@ -6,7 +6,7 @@ Production stack:
 
 > [Perl](http://www.perl.org/) v5.20.0
 >
-> [Precise64](https://vagrantcloud.com/hashicorp/precise64) "A standard Ubuntu 12.04 LTS 64-bit box."
+> [Ubuntu-13.10](https://vagrantcloud.com/chef/ubuntu-13.10) "A standard Ubuntu 13.10 x64 base install"
 
 Uses these open source projects:
 
@@ -23,10 +23,6 @@ Uses these open source projects:
 > [Vagrant](http://vagrantup.com/)
 
 ## Installation: What do I do?
-
-> Make sure you have installed the Precise64 box
-
-	$ vagrant init hashicorp/precise64
 
 > Make sure you have installed the vbguest plugin if you already haven't
 
